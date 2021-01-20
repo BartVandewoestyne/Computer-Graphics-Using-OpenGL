@@ -15,3 +15,6 @@ target_link_libraries(example_2_2_2 freeglut)
 
 add_executable (example_2_3_2 "example_2_3_2.cpp")
 target_link_libraries(example_2_3_2 freeglut)
+
+add_executable (example_2_4_1 "example_2_4_1.cpp")
+target_link_libraries(example_2_4_1 freeglut)
