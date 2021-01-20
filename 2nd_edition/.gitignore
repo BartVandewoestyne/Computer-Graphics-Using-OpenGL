@@ -1,3 +1,5 @@
 .vs
 out
 freeglut*
+
+CMakeSettings.json
