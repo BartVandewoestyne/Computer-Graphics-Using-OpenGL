@@ -1,6 +1,8 @@
 #ifndef GRAPHICS2D
 #define GRAPHICS2D
 
+#include <GL/freeglut.h>
+
 class Point2
 {
 public:
@@ -11,11 +13,11 @@ public:
     float getY() { return y; }
     void draw(void) {
         glBegin(GL_POINTS);
-        glVertex2f((GLFloat)x, (GLFloat)y);
+        glVertex2f((GLfloat)x, (GLfloat)y);
         glEnd();
     }
 
-private:
+public:  // in book made private, but used publicly???
     float x, y;
 };
 
@@ -50,6 +52,8 @@ public:
         l = left; r = right; b = bottom; t = top;
     }
     void draw(void);
+    float getWidth() { return r - l; }
+    float getHeight() { return t - b; }
 
 private:
     float l, r, b, t;

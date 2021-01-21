@@ -18,3 +18,6 @@ target_link_libraries(example_2_3_2 freeglut)
 
 add_executable (example_2_4_1 "example_2_4_1.cpp")
 target_link_libraries(example_2_4_1 freeglut)
+
+add_executable (section_5_5_house "section_5_5_house.cpp" "Canvas.cpp")
+target_link_libraries(section_5_5_house freeglut)

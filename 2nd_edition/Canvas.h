@@ -1,3 +1,5 @@
+#include "graphics2d.h"
+
 class Canvas {
 public:
     Canvas(int width, int height, char* windowTitle);
@@ -15,12 +17,23 @@ public:
     void moveTo(Point2 p);
     void moveRel(float dx, float dy);
     void lineRel(float dx, float dy);
-    void turnTo(float angle);
 
+    // Turtle movement.
+    void turnTo(float angle);
+    void turn(float angle);
+    void forward(float dist, int isVisible);
+
+    void initCT();
+    void scale2D(double sx, double sy);
+    void translate2D(double dx, double dy);
+    void rotate2D(double angle);
+
+    void pushCT();
+    void popCT();
 
 private:
     Point2 CP;  // current position in the world
-    Point2 CD;  // current direction
+    float CD;  // current direction
     IntRect viewport;
     RealRect window;
     // others later

@@ -1,5 +1,11 @@
 #include "Canvas.h"
 
+#include "graphics2d.h"
+
+#include <GL/freeglut.h>
+
+#include <cmath>
+
 Canvas::Canvas(int width, int height, char* windowTitle)
 {
     char* argv[1];  // dummy argument list for glutInit()
@@ -40,6 +46,41 @@ void Canvas::setWindow(float l, float r, float b, float t)
     window.set(l, r, b, t);
 }
 
+void Canvas::setViewport(int left, int right, int bottom, int top)
+{
+    // See page 87.
+    const auto x = static_cast<GLint>(left);
+    const auto y = static_cast<GLint>(bottom);
+    const auto width = static_cast<GLint>(right - left);
+    const auto height = static_cast<GLint>(top - bottom);
+    glViewport(x, y, width, height);
+}
+
+IntRect Canvas::getViewport()
+{
+    // TODO: check correctness of this implementation.
+    return viewport;
+}
+
+RealRect Canvas::getWindow()
+{
+    // TODO: check correctness of this implementation.
+    return window;
+}
+
+float Canvas::getWindowAspectRatio()
+{
+    const auto width = window.getWidth();
+    const auto height = window.getHeight();
+    return width/height;
+}
+
+void Canvas::clearScreen()
+{
+    // TODO: check correctness of this implementation.
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
 void Canvas::moveRel(float dx, float dy)
 {
     CP.set(CP.x + dx, CP.y + dy);
@@ -55,13 +96,49 @@ void Canvas::lineRel(float dx, float dy)
 
 void Canvas::turnTo(float angle) { CD = angle; }
 
-void Canvas::turnTo(float angle) { CD += angle; }
+void Canvas::initCT()
+{
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+}
+
+void Canvas::scale2D(double sx, double sy)
+{
+    glMatrixMode(GL_MODELVIEW);
+    glScaled(sx, sy, 1.0);
+}
+
+void Canvas::translate2D(double dx, double dy)
+{
+    glMatrixMode(GL_MODELVIEW);
+    glTranslated(dx, dy, 0);
+}
+
+void Canvas::rotate2D(double angle)
+{
+    glMatrixMode(GL_MODELVIEW);
+    glRotated(angle, 0.0, 0.0, 1.0);
+}
+
+void Canvas::pushCT()
+{
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+}
+
+void Canvas::popCT()
+{
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+}
+
+void Canvas::turn(float angle) { CD += angle; }
 
 void Canvas::forward(float dist, int isVisible)
 {
     const float RadPerDeg = 0.017453393;  // radians per degree
-    float x = CP.x + dist * cos(RadPerDeg * CD);
-    float y = CP.y + dist * sin(RadPerDeg * CD);
+    float x = CP.x + dist * std::cos(RadPerDeg * CD);
+    float y = CP.y + dist * std::sin(RadPerDeg * CD);
     if (isVisible)
         lineTo(x, y);
     else
