@@ -1,7 +1,5 @@
 #include <GL/freeglut.h>
 
-
-
 void myInit(void)
 {
     glClearColor(1.0, 1.0, 1.0, 0.0);  // set white background color
